@@ -1,0 +1,17 @@
+*/.idea/
+*/cmake-build-debug
+*/__pycache__
+
+# CLion and PyCharm Default Gitignore
+# Default ignored files
+*/shelf/
+*/workspace.xml
+# Editor-based HTTP Client requests
+/httpRequests/
+# Datasource local storage ignored files
+/dataSources/
+/dataSources.local.xml
+
+# Testing files
+pythonAOC/part1.py
+pythonAOC/part2.py
