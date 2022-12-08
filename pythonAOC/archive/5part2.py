@@ -1,4 +1,4 @@
-f = open("../inputs/5.txt", "r")
+f = open("inputs/5.txt", "r")
 
 crates = []
 

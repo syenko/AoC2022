@@ -1,4 +1,4 @@
-f = open("../inputs/4.txt", "r")
+f = open("inputs/4.txt", "r")
 
 count = 0
 

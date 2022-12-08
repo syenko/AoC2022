@@ -1,4 +1,4 @@
-f = open("../inputs/6.txt", "r")
+f = open("inputs/6.txt", "r")
 
 text = ""
 

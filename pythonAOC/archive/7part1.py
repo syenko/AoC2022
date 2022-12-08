@@ -1,4 +1,4 @@
-f = open("../inputs/7.txt", "r")
+f = open("inputs/7.txt", "r")
 
 lines = [x for x in f]
 
