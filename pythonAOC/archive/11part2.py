@@ -4,13 +4,11 @@ lines = [x.strip() for x in f]
 
 monkeys = []
 
-class Monkey():
-    # objects = []
-    # testVal = 0
 
+class Monkey():
     def __init__(self, objs, op, test, trueThrow, falseThrow):
         self.objects = objs
-        self.op = op # string representing operation
+        self.op = op  # string representing operation
         self.test = test
         self.trueThrow = trueThrow
         self.falseThrow = falseThrow
@@ -19,13 +17,9 @@ class Monkey():
     def __str__(self):
         return f"objects: {self.objects}"
 
-    # def inspect(self, value):
-    #     return eval(self.op.replace("old"), str(value))//3
-
     def testValue(self, value, totalMod):
         val = eval(self.op.replace("old", str(value))) % totalMod
         self.inspects += 1
-        # print(val)
         if val % self.test == 0:
             monkeys[self.trueThrow].addObj(val)
         else:
@@ -42,25 +36,28 @@ class Monkey():
     def addObj(self, obj):
         self.objects.append(obj)
 
+# parse input and create monkeys
 for i in range(len(lines)):
     line = lines[i]
 
     if line.split(" ")[0] == "Monkey":
-        objects = [int(x) for x in lines[i+1].split(": ")[1].split(", ")]
-        op = lines[i+2].split("new = ")[1]
-        test = int(lines[i+3].split(" ")[3])
-        trueThrow = int(lines[i+4].split(" ")[5])
-        falseThrow = int(lines[i+5].split(" ")[5])
+        objects = [int(x) for x in lines[i + 1].split(": ")[1].split(", ")]
+        op = lines[i + 2].split("new = ")[1]
+        test = int(lines[i + 3].split(" ")[3])
+        trueThrow = int(lines[i + 4].split(" ")[5])
+        falseThrow = int(lines[i + 5].split(" ")[5])
 
         monkeys.append(Monkey(objects, op, test, trueThrow, falseThrow))
-        print(monkeys[len(monkeys)-1])
+        print(monkeys[len(monkeys) - 1])
 
         i = i + 5
 
+# calculate maximum value to limit worry by
 totalMod = 1
 for monkey in monkeys:
     totalMod *= monkey.test
 
+# simulate rounds
 for i in range(10000):
     for monkey in monkeys:
         monkey.runTurn(totalMod)
