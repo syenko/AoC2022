@@ -6,11 +6,10 @@ index = 1
 
 ans = 0
 
-
 # 1 = success
-# 2 = nothing
+# 2 = do nothing
 # 0 = fail
-def largerCompare(left, right):
+def compare(left, right):
     for j in range(len(left)):
         if j >= len(right):
             return 0
@@ -28,7 +27,7 @@ def largerCompare(left, right):
             if type(right[j]) == int:
                 right[j] = [right[j]]
 
-            temp = largerCompare(left[j], right[j])
+            temp = compare(left[j], right[j])
             if temp != 2:
                 return temp
     if len(left) < len(right):
@@ -41,15 +40,12 @@ def largerCompare(left, right):
 
 i = 0
 while i < len(lines):
-    print(lines[i])
-    test = lines[i + 1]
     left = eval(lines[i])
-    right = eval(test)
+    right = eval(lines[i + 1])
 
     failed = False
 
-    if largerCompare(left, right) != 0:
-        print(index)
+    if compare(left, right) != 0:
         ans += index
     index += 1
 
