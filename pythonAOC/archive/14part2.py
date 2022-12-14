@@ -14,95 +14,51 @@ for line in lines:
              ]
         )
 
-maxX = 0
 maxY = 0
-minX = 1000000
-minY = 1000000
 for block in blockages:
-    maxX = max({maxX, block[0][0], block[1][0]})
     maxY = max({maxY, block[0][1], block[1][1]})
-    minX = min({minX, block[0][0], block[1][0]})
-    minY = min({minY, block[0][1], block[1][1]})
 
-grid = []
-
-maxY += 3
-maxX += 1000
-
-for i in range(maxY):
-    grid.append([])
-    for j in range(maxX):
-        grid[i].append(-1)
+positions = set()
 
 for block in blockages:
-    print(block)
     block.sort(key=lambda x : x[0])
     # x
     for i in range(block[0][0], block[1][0] + 1):
-        grid[block[0][1]][i] = 0
+        positions.add((i,block[0][1]))
     # y
     block.sort(key=lambda x : x[1])
     for i in range(block[0][1], block[1][1] + 1):
-        grid[i][block[0][0]] = 0
+        positions.add((block[0][0],i))
 
-grid[len(grid) - 1] = [0 for x in range(maxX)]
+def move():
+    x = 500
+    y = -1
+    while y + 1 < maxY + 2:
+        if (x, y + 1) not in positions:
+            y += 1
+            continue
+        elif (x - 1, y + 1) not in positions:
+            x -= 1
+            y += 1
+            continue
+        elif (x + 1, y + 1) not in positions:
+            x += 1
+            y += 1
+            continue
+        else:
+            break
 
-class Sand:
-    def __init__(self):
-        self.x = 500
-        self.y = 0
+    if y == 0:
+        return False
 
-    def move(self):
-        while self.x + 1 < len(grid[0]) and self.y + 1 < len(grid) and self.x - 1 > 0:
-            if grid[self.y + 1][self.x] < 0:
-                self.y += 1
-                continue
-            elif grid[self.y + 1][self.x - 1] < 0:
-                self.x -= 1
-                self.y += 1
-                continue
-            elif grid[self.y + 1][self.x + 1] < 0:
-                self.x += 1
-                self.y += 1
-                continue
-            else:
-                break
-        if self.x > maxX or self.y <= 0 or self.y >= maxY:
-            return False
-
-        grid[self.y][self.x] = 1
-        return True
-
-print(f"max: ({maxX}, {maxY}), min: ({minX}, {minY})")
-print(f"grid dimens: {len(grid[0])}, {len(grid)}")
-better = "\n"
-
-for line in grid[minY:maxY + 1]:
-    for char in line[minX:maxX + 1]:
-        if char == -1:
-            print(".", end="")
-        if char == 1:
-            print("o", end="")
-        if char == 0:
-            print("#", end="")
-    print()
+    positions.add((x, y))
+    return True
 
 count = 0
 while (True):
-    sand = Sand()
-    if not sand.move():
+    if not move():
         break
     else:
         count += 1
 
-for line in grid[0:maxY + 1]:
-    for char in line[minX-30:maxX + 1]:
-        if char == -1:
-            print(".", end="")
-        if char == 1:
-            print("o", end="")
-        if char == 0:
-            print("#", end="")
-    print()
-
-print(count)
+print(count + 1) # last piece of sand
