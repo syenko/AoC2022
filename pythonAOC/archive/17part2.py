@@ -1,4 +1,5 @@
-f = open("inputs/17.txt", "r")
+# f = open("inputs/17.txt", "r")
+f = open("inputs/17ex.txt", "r")
 
 lines = [x.strip() for x in f]
 
@@ -10,27 +11,27 @@ rocks = [
     ["####"],
     # 1
     [
-    ".#.",
-    "###",
-    ".#.",
+        ".#.",
+        "###",
+        ".#.",
     ],
     # 2
     [
-    "..#",
-    "..#",
-    "###",
+        "..#",
+        "..#",
+        "###",
     ],
     # 3
     [
-    "#",
-    "#",
-    "#",
-    "#",
+        "#",
+        "#",
+        "#",
+        "#",
     ],
     # 4
     [
-    "##",
-    "##"
+        "##",
+        "##"
     ]
 ]
 
@@ -38,6 +39,7 @@ positions = set()
 
 topPos = -1
 
+# add rock to positions
 def addRock(rock, startX, startY):
     for row in range(len(rock)):
         for col in range(len(rock[row])):
@@ -49,6 +51,7 @@ def addRock(rock, startX, startY):
                     startY - row
                 ))
 
+# check if rock is placeable
 def canPlaceRock(rock, startX, startY):
     for row in range(len(rock)):
         for col in range(len(rock[row])):
@@ -57,8 +60,6 @@ def canPlaceRock(rock, startX, startY):
                     return False
     return True
 
-rockHeights = []
-
 
 total = 0
 
@@ -66,17 +67,15 @@ total = 0
 for i in range(100000000):
     print(f"i: {i} topPos: {topPos}")
     rockPos = i % len(rocks)
-    # print(f"RRRR{rockPos}")
     rock = rocks[rockPos]
 
-    startX = 2 # left
-    startY = topPos + 3 + len(rock) # top
+    startX = 2  # left
+    startY = topPos + 3 + len(rock)  # top
     END = False
     added = 0
     while True:
-        # print(f"-- x: {startX} y: {startY}")
         jetPoint += 1
-        if total >= 1*len(stream):
+        if total % len(stream) == 0 and total >= len(stream) and added == 0:
             END = True
             break
         added += 1
@@ -105,7 +104,7 @@ for i in range(100000000):
                 startX -= 1
 
         total += 1
-        # print(f"x: {startX} y: {startY}")
+
         # move down
         if startY - (len(rock) - 1) - 1 < 0:
             addRock(rock, startX, startY)
@@ -122,10 +121,11 @@ for i in range(100000000):
         break
 
     topPos = max(topPos, startY)
-    rockHeights.append(topPos)
 
     print(f"x {startX} y {startY}")
     # print(f"i {i} pos {positions}")
+
+print(f"added {added} jp {jetPoint} tot {total}")
 
 initCycleNum = i
 initCyclePos = topPos
@@ -142,14 +142,14 @@ for i in range(initCycleNum, 100000000):
     # print(f"RRRR{rockPos}")
     rock = rocks[rockPos]
 
-    startX = 2 # left
-    startY = topPos + 3 + len(rock) # top
+    startX = 2  # left
+    startY = topPos + 3 + len(rock)  # top
     END = False
     added = 0
     while True:
         # print(f"-- x: {startX} y: {startY}")
         jetPoint += 1
-        if total >= 1*len(stream):
+        if total >= 1 * len(stream):
             END = True
             break
         added += 1

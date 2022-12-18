@@ -1,7 +1,7 @@
 from collections import Counter
 import sys
 
-sys.setrecursionlimit(10000) # inefficient solutions wooo
+sys.setrecursionlimit(5000) # inefficient solutions wooo
 
 f = open("inputs/18.txt", "r")
 
@@ -70,10 +70,12 @@ bad = set()
 pastValues = set()
 
 
-def checkAirBlock(airBlock, visited, component):
+def checkAirBlock(airBlock, visited, component, recur):
     if airBlock in visited:
         return 0
     visited.add(airBlock)
+
+    # print(recur)
 
     x = airBlock[0]
     y = airBlock[1]
@@ -84,6 +86,8 @@ def checkAirBlock(airBlock, visited, component):
             bad.add(airBlock)
         # print(x, y, z)
         return FAIL
+    elif airBlock in blocks:
+        return SUCCESS
 
     component.add(airBlock)
 
@@ -99,19 +103,18 @@ def checkAirBlock(airBlock, visited, component):
     ]
 
     for point in pointsToCheck:
-        if point not in blocks and point not in visited:
-            result = min(checkAirBlock(point, visited, component), result)
+        if point not in visited:
+            result = min(checkAirBlock(point, visited, component, recur + 1), result)
 
     if result != FAIL:
         return SUCCESS
     else:
         return FAIL
 
-
 for airBlock in air:
     if airBlock not in visited:
         component = {airBlock}
-        if checkAirBlock(airBlock, visited, component) == SUCCESS:
+        if checkAirBlock(airBlock, visited, component, 0) == SUCCESS:
             print("SUCCESS")
             # sa = findSurfaceArea(component)
             # print(f"component: {component} sa: {sa}")
